@@ -5,6 +5,7 @@ module "lambda" {
   image_uri   = var.image_uri
 }
 
+
 module "apigateway" {
   source             = "./modules/apigateway"
   api_name           = var.api_name
