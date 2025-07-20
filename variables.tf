@@ -1,11 +1,18 @@
-variable "lambda_function_name" {
-  default = "hello-world-lambda"
+variable "aws_region" { 
+  default = "ap-south-1" 
 }
-
-variable "image_tag" {
-  default = "v1"
+variable "repository_name" { 
+  default = "hello-lambda" 
 }
-
-variable "ecr_repo_name" {
-  default = "hello-world-ecr"
+variable "lambda_name" { 
+  default = "hello-docker-lambda" 
+}
+variable "image_uri" { 
+  description = "ECR image URI with tag (updated by CI/CD)" 
+}
+variable "api_name" { 
+  default = "docker-python" 
+}
+variable "stage_name" { 
+  default = "test" 
 }
