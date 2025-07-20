@@ -1,11 +1,11 @@
 module "vpc" {
-  source = "./"
+  source = "./vpc.tf"
 }
 
 module "iam" {
-  source = "./"
+  source = "./iam.tf"
 }
 
 module "lambda" {
-  source = "./"
+  source = "./lambda.tf"
 }
