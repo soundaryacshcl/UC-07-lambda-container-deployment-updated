@@ -87,7 +87,7 @@ resource "aws_route_table_association" "private_b" {
 
 resource "aws_security_group" "lambda_sg" {
   name        = "lambda-sg"
-  description = "Allow outbound traffic"
+  description = "Allow outbound"
   vpc_id      = aws_vpc.this.id
 
   egress {
