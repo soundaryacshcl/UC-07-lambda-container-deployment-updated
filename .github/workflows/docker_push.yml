@@ -47,28 +47,22 @@ jobs:
         id: prep
         run: |
           ACCOUNT_ID=436450225331
-          COMMIT_HASH=${{ github.sha }}
-          TAG="build-${COMMIT_HASH::7}"  # short SHA
           ECR_URI="$ACCOUNT_ID.dkr.ecr.ap-south-1.amazonaws.com/hello-lambda"
           echo "ECR_URI=$ECR_URI" >> $GITHUB_ENV
-          echo "IMAGE_TAG=$TAG" >> $GITHUB_ENV
-          echo "IMAGE_URI=$ECR_URI:$TAG" >> $GITHUB_ENV
-
+          echo "IMAGE_TAG=latest" >> $GITHUB_ENV
+          echo "IMAGE_URI=$ECR_URI:latest" >> $GITHUB_ENV
 
       - name: Build Docker image
-        run: docker build -t $IMAGE_URI ./app
-
+        run: |
+          docker build -t $ECR_URI:latest ./app
+      
       - name: Push image to Amazon ECR
-        run: docker push $IMAGE_URI
+        run: |
+          docker push $ECR_URI:latest
       
       - name: Update terraform.tfvars with new image_uri
         run: |
-          if grep -q '^image_uri' terraform.tfvars; then
-          sed -i "s|^image_uri *=.*|image_uri = \"$IMAGE_URI\"|" terraform.tfvars
-          else
-          echo "image_uri = \"$IMAGE_URI\"" >> terraform.tfvars
-          fi
-
+          sed -i "s|^image_uri *=.*|image_uri = \"$ECR_URI:latest\"|g" terraform.tfvars
 
       - name: Delete all other tags except latest (optional)
         run: |
@@ -85,8 +79,7 @@ jobs:
         run: terraform init -reconfigure
 
       - name: Terraform Plan
-        run: terraform plan -var="image_uri=${{ env.IMAGE_URI }}"
+        run: terraform plan
 
       - name: Terraform Apply
-        run: terraform apply -auto-approve -var="image_uri=${{ env.IMAGE_URI }}"
-
+        run: terraform apply -auto-approve
