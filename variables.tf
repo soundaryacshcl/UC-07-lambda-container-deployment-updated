@@ -9,4 +9,3 @@ variable "image_tag" {
 variable "ecr_repo_name" {
   default = "hello-world-ecr"
 }
-
