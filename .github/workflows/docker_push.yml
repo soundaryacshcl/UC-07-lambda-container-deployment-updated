@@ -46,7 +46,7 @@ jobs:
       - name: Set variables for ECR
         id: prep
         run: |
-          ACCOUNT_ID=012889719104
+          ACCOUNT_ID=436450225331
           COMMIT_HASH=${{ github.sha }}
           TAG="build-${COMMIT_HASH::7}"  # short SHA
           ECR_URI="$ACCOUNT_ID.dkr.ecr.ap-south-1.amazonaws.com/hello-lambda"
